@@ -1,53 +1,65 @@
-import React, {Component} from "react";
-import {Dimensions, StyleSheet, View} from "react-native";
-import Tile from "./Tile";
-import Turn from "./Turn";
+import React from 'react';
+import { Dimensions, View } from 'react-native';
+import PropTypes from 'prop-types';
 
-class GameBoard extends Component {
+import Tile from '../Tile';
+import Tiles from '../../utils/Tiles';
 
-    _onTileTap(tile) {
-        this.props.onTurnChanged(tile);
+import styles from './styles';
+
+export default class GameBoard extends React.Component {
+
+    static propTypes = {
+        tiles: PropTypes.objectOf(Tiles),
+        onTileTap: PropTypes.func.isRequired,
+    };
+
+    _handleTileTap = (column, row, image) => {
+        const { onTileTap } = this.props;
+        onTileTap(column, row);
     }
 
     render() {
-        const windowWidth = Dimensions.get("window").width;
+        const windowWidth = Dimensions.get('window').width;
         const sideMargins = 30;
         const boardWidth = windowWidth - (2 * sideMargins);
-        var tileWidth = boardWidth / 3;
+        const tileWidth = boardWidth / 3;
+
+        const { tiles } = this.props;
         
-        createRow = (row) => {
-            var content = [];
-            for (var column = 0; column <= 2; column++) {
-                content.push(<Tile 
+        buildRowAtIndex = (row) => {
+            let content = [];
+            for (let column = 0; column <= 2; column++) {
+                const tileState = tiles.stateAt(column, row);
+                const tileImage = tiles.imageAt(column, row);
+
+                const tile = (<Tile 
+                    key={row + "-" + column}
                     column={column} 
                     row={row} 
                     width={tileWidth} 
-                    key={row + "-" + column}
-                    tileState={this.props.tileStates[column][row]}
-                    onPress={(tile) => this._onTileTap(tile)}/>);
+                    tileState={tileState}
+                    image={tileImage}
+                    onPress={this._handleTileTap}/>);
+
+                content.push(tile);
             }
 
-            return <View style={[{height: tileWidth}, styles.row]}>{content}</View>
+            return (
+                <View style={[{height: tileWidth}, styles.row]}>
+                    {content}
+                </View>
+            );
         };
 
+        const viewStyles = [{width: boardWidth, height: boardWidth}, styles.container];
+
         return (
-            <View style={[{width: boardWidth, height: boardWidth}, styles.container]}>
-                {createRow(0)}
-                {createRow(1)}
-                {createRow(2)}
+            <View style={viewStyles}>
+                {buildRowAtIndex(0)}
+                {buildRowAtIndex(1)}
+                {buildRowAtIndex(2)}
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "column",
-    },
-
-    row: {
-        flexDirection: "row",
-    },
-});
-
-export default GameBoard;

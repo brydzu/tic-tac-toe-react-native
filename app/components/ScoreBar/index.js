@@ -1,90 +1,41 @@
-import React, {Component} from "react";
-import {Image, Text, StyleSheet, View} from "react-native";
-import {Assets} from "../../../config/index"
-import Turn from "../GameBoard/Turn";
+import React from 'react';
+import { Image, Text, View } from 'react-native';
+import PropTypes from 'prop-types';
 
-class ScoreBar extends Component {
+import { Assets } from '../../config';
+import Turn from '../../utils/Turn';
 
-    _isXVisible() { 
-        return this.props.turn == Turn.x;
-    }
+import styles from './styles';
 
-    _isOVisible() {
-        return this.props.turn == Turn.o;
-    }
+export default class ScoreBar extends React.Component {
+
+    static propTypes = {
+        turn: PropTypes.any.isRequired,
+        scoreX: PropTypes.number.isRequired,
+        scoreO: PropTypes.number.isRequired,
+    };
 
     render() {
+        const { turn } = this.props;
+        const isXVisible = turn == Turn.X;
+        const isOVisible = !isXVisible;
+
+        const { scoreX, scoreO } = this.props;
+
+        const imageX = Assets.images.small.x;
+        const imageO = Assets.images.small.o;
+        
         return (
             <View style={styles.container}>
-                <Text style={[styles.score, styles.scoreX]}>{this.props.scoreX}</Text>
+                <Text style={[styles.score, styles.scoreX]}>{scoreX}</Text>
                 <Image 
-                    source={Assets.images.xSmall} 
-                    style={[
-                        styles.icon, styles.iconXSmall,
-                        this._isXVisible() ? styles.iconVisible : styles.iconDimmed
-                    ]}
-                />
+                    source={imageX} 
+                    style={[styles.icon, styles.iconX, isXVisible ? {} : styles.iconDimmed]} />
                 <Image 
-                    source={Assets.images.oSmall} 
-                    style={[
-                        styles.icon, styles.iconOSmall,
-                        this._isOVisible() ? styles.iconVisible : styles.iconDimmed
-                    ]}
-                />
-                <Text style={[styles.score, styles.scoreO]}>{this.props.scoreO}</Text>
+                    source={imageO} 
+                    style={[styles.icon, styles.iconO, isOVisible ? {} : styles.iconDimmed]} />
+                <Text style={[styles.score, styles.scoreO]}>{scoreO}</Text>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        width: 100+'%',
-        height: 100,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-
-    icon: {
-        height: 23,
-        marginTop: 1,
-    },
-
-    iconXSmall: {
-        width: 21,
-        marginRight: 5,
-    },
-
-    iconOSmall: {
-        width: 24,
-        marginLeft: 5,
-    },
-
-    score: {
-        fontFamily: "Marker Felt",
-        fontWeight: "800",
-        fontSize: 24,
-        color: "#6C767D",
-    },
-
-    scoreX: {
-        marginRight: 20,
-        textAlign: "right",
-    },
-
-    scoreO: {
-        marginLeft: 20,
-        textAlign: "left",
-    },
-
-    iconVisible: {
-        opacity: 1.0,
-    },
-
-    iconDimmed: {
-        opacity: 0.2,
-    },
-})
-
-export default ScoreBar;
