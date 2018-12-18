@@ -16,14 +16,12 @@ export default StyleSheet.create({
 
     iconX: {
         width: 21,
-        marginLeft: 20,
         marginRight: 5
     },
 
     iconO: {
         width: 24,
         marginLeft: 5,
-        marginRight: 20
     },
 
     score: {
@@ -44,4 +42,10 @@ export default StyleSheet.create({
     iconDimmed: {
         opacity: 0.2,
     },
+
+    iconsContainer: {
+        flexDirection: 'row',
+        marginLeft: 20,
+        marginRight: 20,
+    }
 })

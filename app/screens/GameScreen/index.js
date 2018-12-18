@@ -21,7 +21,8 @@ export default class GameScreen extends React.Component {
 
         this.state = {
             turn: Turn.X,
-            ended: false,
+            gameStarted: false,
+            gameEnded: false,
             scoreX: 0,
             scoreO: 0,    
             tiles: new Tiles(),
@@ -55,7 +56,7 @@ export default class GameScreen extends React.Component {
         tiles.setTile(column, row, tileState, image);
 
         const didWin = tiles.isWinAt(column, row);
-        const ended = didWin || tiles.isOutOfMoves();
+        const gameEnded = didWin || tiles.isOutOfMoves();
 
         let { scoreX, scoreO } = this.state;
         let message = "Remis";
@@ -74,14 +75,15 @@ export default class GameScreen extends React.Component {
             }
         }
 
-        if (ended) {
+        if (gameEnded) {
             this._presentAlert(message);
         }
 
         this.setState({
             turn: (turn == Turn.X) ? Turn.O : Turn.X,
             tiles: tiles,
-            ended: ended,
+            gameStarted: true,
+            gameEnded: gameEnded,
             scoreX: scoreX,
             scoreO: scoreO,
         });
@@ -98,7 +100,8 @@ export default class GameScreen extends React.Component {
         this.setState({
             turn: Turn.X,
             tiles: new Tiles(),
-            ended: false,
+            gameStarted: false,
+            gameEnded: false,
         });
     }
 
@@ -106,19 +109,33 @@ export default class GameScreen extends React.Component {
         this.setState({
             turn: Turn.X,
             tiles: new Tiles(),
-            ended: false,
+            gameStarted: false,
+            gameEnded: false,
             scoreX: 0,
             scoreO: 0,
         })
     }
 
-    render() {
-        const {tiles, turn, scoreX, scoreO} = this.state;
+    _handleScoreBarTap = () => {
+        if (this.state.gameStarted == true) { return; }
 
+        this.setState((prevState, props) => ({
+            turn: (prevState.turn == Turn.X) ? Turn.O : Turn.X
+        }));
+    }
+
+    render() {
+        const {tiles, turn, scoreX, scoreO, gameStarted} = this.state;
+        console.log(turn);
         return (
             <SafeAreaView>
                 <View style={styles.container}>
-                    <ScoreBar turn={turn} scoreX={scoreX} scoreO={scoreO} />
+                    <ScoreBar 
+                        turn={turn} 
+                        scoreX={scoreX} 
+                        scoreO={scoreO} 
+                        gameStarted={gameStarted}
+                        onPress={this._handleScoreBarTap} />
                     <View style={styles.gameBoardContainer}>
                         <GameBoard tiles={tiles} onTileTap={this._handleTileTap} />
                     </View>
@@ -126,7 +143,7 @@ export default class GameScreen extends React.Component {
                         <TouchableOpacity 
                             style={styles.resetButton}
                             onPress={this._handleRestartCurrentGame}>
-                            <Image source={Assets.images.reset}/>
+                            <Image source={Assets.images.button.reset}/>
                         </TouchableOpacity>
                     </View>
                 </View>
