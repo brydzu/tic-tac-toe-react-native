@@ -1,13 +1,12 @@
-import React, {Component} from 'react'
+import React from 'react'
+
 import GameScreen from './app/screens/GameScreen'
 
-class App extends Component {
+export default class App extends React.Component {
 
   render() {
     return (
       <GameScreen/>
-    )
+    );
   }
 }
-
-export default App;

@@ -2,9 +2,7 @@ import React from 'react';
 import { Image, TouchableWithoutFeedback, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Assets } from '../../config';
 import TileState from '../../utils/TileState';
-
 import styles from './styles';
 
 export default class Tile extends React.Component {

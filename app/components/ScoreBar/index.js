@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 
 import { Assets } from '../../config';
 import Turn from '../../utils/Turn';
-
 import styles from './styles';
 
 export default class ScoreBar extends React.Component {

@@ -11,7 +11,6 @@ import ScoreBar from '../../components/ScoreBar';
 import GameBoard from '../../components/GameBoard';
 import { Assets } from '../../config';
 import { TileState, Tiles, Turn } from '../../utils';
-
 import styles from './styles';
 
 export default class GameScreen extends React.Component {
@@ -75,10 +74,6 @@ export default class GameScreen extends React.Component {
             }
         }
 
-        if (gameEnded) {
-            this._presentAlert(message);
-        }
-
         this.setState({
             turn: (turn == Turn.X) ? Turn.O : Turn.X,
             tiles: tiles,
@@ -86,6 +81,10 @@ export default class GameScreen extends React.Component {
             gameEnded: gameEnded,
             scoreX: scoreX,
             scoreO: scoreO,
+        }, () => {
+            if (gameEnded) {
+                this._presentAlert(message);
+            }
         });
     }
 

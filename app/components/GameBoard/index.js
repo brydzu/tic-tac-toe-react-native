@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import Tile from '../Tile';
 import Tiles from '../../utils/Tiles';
-
 import styles from './styles';
 
 export default class GameBoard extends React.Component {
@@ -14,7 +13,7 @@ export default class GameBoard extends React.Component {
         onTileTap: PropTypes.func.isRequired,
     };
 
-    _handleTileTap = (column, row, image) => {
+    _handleTileTap = (column, row) => {
         const { onTileTap } = this.props;
         onTileTap(column, row);
     }
