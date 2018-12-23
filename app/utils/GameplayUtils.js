@@ -27,12 +27,12 @@ export function randomImage(turn) {
 
 export function isOutOfMoves(tileStates) {
     for (let i = 0; i < tileStates.length; i++) {
-        if (tileStates[i].state === TileState.empty) {
+        if (tileStates[i].state === TileState.Empty) {
             return false;
-        } else {
-            continue;
         }
     }
+
+    return true;
 }
 
 export function isWin(tileStates, state) {

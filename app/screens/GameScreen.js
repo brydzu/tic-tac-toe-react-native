@@ -77,10 +77,14 @@ export default class GameScreen extends React.Component {
 
         this.setState({
             isGameStarted: true,
-            tileStates: {
-                ...tileStates,
-                [tileId]: {state: tileState, image: tileImage},
-            },
+            tileStates: [
+                ...tileStates.slice(0,tileId),
+                {
+                    state: tileState, 
+                    image: tileImage
+                },
+                ...tileStates.slice(tileId + 1),
+            ],
         }, () => {
             const { tileStates, scoreX, scoreO } = this.state;
             const didWin = isWin(tileStates, tileState);
