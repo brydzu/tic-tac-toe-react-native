@@ -1,4 +1,4 @@
-const Assets = {
+export default Assets = {
     images: {
         small: {
             x: require('../assets/images/x-small/x-small.png'),
@@ -24,8 +24,4 @@ const Assets = {
             reset: require("../assets/images/reset/reset.png"),
         },
     }
-}
-
-export {
-    Assets
 }

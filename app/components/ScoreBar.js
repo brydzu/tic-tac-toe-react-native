@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Assets } from '../config';
+import Assets from '../config/Assets';
 import Turn from '../utils/Turn';
 
 ScoreBar.propTypes = {
@@ -16,10 +16,10 @@ ScoreBar.propTypes = {
     scoreX: PropTypes.number.isRequired,
     scoreO: PropTypes.number.isRequired,
     onPress: PropTypes.func.isRequired,
-    gameStarted: PropTypes.bool.isRequired,
+    isGameStarted: PropTypes.bool.isRequired,
 };
 
-export default function ScoreBar({turn, scoreX, scoreO, gameStarted, onPress}) {
+export default function ScoreBar({turn, scoreX, scoreO, isGameStarted, onPress}) {
     const isXVisible = turn == Turn.X;
     const isOVisible = !isXVisible;
     const imageX = Assets.images.small.x;
@@ -28,7 +28,7 @@ export default function ScoreBar({turn, scoreX, scoreO, gameStarted, onPress}) {
     return (
         <View style={styles.container}>
             <Text style={[styles.score, styles.scoreX]}>{scoreX}</Text>
-            <TouchableOpacity onPress={onPress} style={styles.iconsContainer} disabled={gameStarted}>
+            <TouchableOpacity onPress={onPress} style={styles.iconsContainer} disabled={isGameStarted}>
             <Image 
                 source={imageX} 
                 style={[styles.icon, styles.iconX, isXVisible ? {} : styles.iconDimmed]} />

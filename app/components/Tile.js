@@ -5,13 +5,22 @@ import {
     TouchableWithoutFeedback, 
     View 
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 import TileState from '../utils/TileState';
 
-export default function Tile({ tileState, width, column, row, image, onPress }) {
+Tile.propTypes = {
+    tileId: PropTypes.number.isRequired,
+    tileState: PropTypes.any.isRequired,
+    width: PropTypes.number.isRequired,
+    image: PropTypes.any,
+    onPress: PropTypes.func.isRequired,
+};
+
+export default function Tile({ tileId, tileState, width, image, onPress }) {
     handleOnPress = () => {
         if (tileState != TileState.Empty) { return; }
-        onPress(column, row);
+        onPress({tileId});
     }
     
     return (
